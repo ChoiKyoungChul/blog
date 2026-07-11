@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}설정{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>API 키 상태</h2>
+  <table>
+    <tr>
+      <td style="width:200px;">Anthropic (Claude)</td>
+      <td>
+        {% if has_anthropic %}<span class="tag badge-posted">등록됨</span>{% else %}<span class="tag badge-pending">미등록</span>{% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>OpenAI (GPT)</td>
+      <td>
+        {% if has_openai %}<span class="tag badge-posted">등록됨</span>{% else %}<span class="tag badge-pending">미등록</span>{% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Google Gemini</td>
+      <td>
+        {% if has_gemini %}<span class="tag badge-posted">등록됨</span>{% else %}<span class="tag badge-pending">미등록</span>{% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Blogger ID</td>
+      <td>{{ blog_id or "미설정" }}</td>
+    </tr>
+  </table>
+  <p style="margin-top: 12px; font-size: 13px; color: #999;">
+    API 키는 보안상 웹에서 편집할 수 없습니다. <code>.env</code> 파일을 직접 수정하세요.
+  </p>
+</div>
+
+<div class="card">
+  <h2>운영 설정</h2>
+  <form method="POST">
+    <div class="form-row">
+      <label for="provider">LLM 우선순위 (강제 지정)</label>
+      <select id="provider" name="provider">
+        <option value="" {% if not provider %}selected{% endif %}>자동 (등록된 순서대로 시도)</option>
+        <option value="anthropic" {% if provider == "anthropic" %}selected{% endif %}>Anthropic (Claude)</option>
+        <option value="openai" {% if provider == "openai" %}selected{% endif %}>OpenAI (GPT)</option>
+        <option value="gemini" {% if provider == "gemini" %}selected{% endif %}>Google Gemini</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="theme">블로그 주제 카테고리 (BLOG_THEME)</label>
+      <input type="text" id="theme" name="theme" value="{{ theme }}"
+             placeholder="예: IT/개발, 스타트업, AI 트렌드">
+      <small style="color: #999;">AI가 주제 생성 시 참고하는 카테고리 (쉼표 구분)</small>
+    </div>
+    <div class="form-row checkbox-row">
+      <input type="checkbox" id="auto_topic" name="auto_topic" {% if auto_topic %}checked{% endif %}>
+      <label for="auto_topic">항상 AI로 주제 자동 생성 (topics.txt 무시)</label>
+    </div>
+    <button type="submit" class="btn">저장</button>
+  </form>
+</div>
+
+{% endblock %}

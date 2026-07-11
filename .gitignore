@@ -1,0 +1,24 @@
+# 절대 커밋 금지 - 민감 정보
+.env
+.env.local
+credentials.json
+token.json
+daily_log.txt
+
+# 파이썬
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# 임시 파일
+*.log
+*.tmp

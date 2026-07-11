@@ -1,0 +1,100 @@
+name: Daily Blog Post
+
+on:
+  schedule:
+    # 매일 UTC 00:00 = 한국시간 오전 9:00
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+    inputs:
+      draft:
+        description: '초안으로 저장 (true) / 즉시 발행 (false)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: write  # posted_log.txt / topics.txt 커밋용
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore Google OAuth credentials
+        env:
+          CREDENTIALS_JSON_B64: ${{ secrets.CREDENTIALS_JSON_B64 }}
+          TOKEN_JSON_B64: ${{ secrets.TOKEN_JSON_B64 }}
+        run: |
+          echo "$CREDENTIALS_JSON_B64" | base64 -d > credentials.json
+          echo "$TOKEN_JSON_B64" | base64 -d > token.json
+
+      - name: Write .env
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          BLOG_ID: ${{ secrets.BLOG_ID }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'openai' }}
+          BLOG_THEME: ${{ vars.BLOG_THEME || '일상 팁, 자기계발, IT/기술, 취미, 생산성' }}
+          AUTO_TOPIC: ${{ vars.AUTO_TOPIC || '0' }}
+          EMBED_VIDEO: ${{ vars.EMBED_VIDEO || '1' }}
+        run: |
+          cat > .env <<EOF
+          ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
+          OPENAI_API_KEY=$OPENAI_API_KEY
+          GEMINI_API_KEY=$GEMINI_API_KEY
+          PIXABAY_API_KEY=$PIXABAY_API_KEY
+          BLOG_ID=$BLOG_ID
+          LLM_PROVIDER=$LLM_PROVIDER
+          BLOG_THEME=$BLOG_THEME
+          AUTO_TOPIC=$AUTO_TOPIC
+          EMBED_VIDEO=$EMBED_VIDEO
+          EOF
+
+      - name: Publish post
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          if [ "${{ github.event.inputs.draft }}" = "true" ]; then
+            python daily_post.py
+          else
+            python daily_post.py --publish
+          fi
+
+      - name: Commit updated logs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posted_log.txt topics.txt 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "변경사항 없음"
+          else
+            git commit -m "chore: 자동 발행 이력 업데이트 [skip ci]"
+            git push
+          fi
+
+      - name: Cleanup secrets
+        if: always()
+        run: |
+          rm -f credentials.json token.json .env

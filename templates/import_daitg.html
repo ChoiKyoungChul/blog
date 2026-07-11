@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}다있지창고 상품 가져오기{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>🏬 다있지창고 상품을 주제로 가져오기</h2>
+  <p style="color: #57606a; margin-bottom: 16px;">
+    선택한 카테고리에서 상품명을 스크래핑해 블로그 주제로 변환합니다.
+    (예: "고무장갑" → "고무장갑 구매 전 알아야 할 5가지")
+  </p>
+
+  <form method="POST">
+    <div class="form-row">
+      <label for="per_category">카테고리당 가져올 개수</label>
+      <input type="number" id="per_category" name="per_category" value="3" min="1" max="20" style="width: 100px;">
+    </div>
+
+    <div class="form-row">
+      <label>카테고리 선택</label>
+      {% for parent, subs in grouped.items() %}
+        <div style="margin-top: 12px; padding: 12px; background: #f8f9fb; border-radius: 6px;">
+          <div style="font-weight: 600; margin-bottom: 8px; color: #1a2332;">
+            <label style="display: inline; cursor: pointer;">
+              <input type="checkbox" onclick="toggleGroup(this, '{{ loop.index }}')"> {{ parent }}
+            </label>
+          </div>
+          <div class="cat-group-{{ loop.index }}" style="margin-left: 20px;">
+            {% for ca_id, sub in subs %}
+              <label style="display: inline-block; margin-right: 12px; margin-bottom: 4px; font-size: 13px;">
+                <input type="checkbox" name="categories" value="{{ ca_id }}" class="cat-cb-{{ loop.index0 }}"> {{ sub }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn" style="margin-top: 16px;">상품 가져오기</button>
+  </form>
+
+  <p style="margin-top: 12px; font-size: 13px; color: #999;">
+    ⏱ 카테고리 수에 따라 10~60초 걸릴 수 있습니다.
+  </p>
+</div>
+
+<script>
+function toggleGroup(masterCb, groupIdx) {
+  const group = document.querySelector('.cat-group-' + groupIdx);
+  const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(cb => { cb.checked = masterCb.checked; });
+}
+</script>
+
+{% endblock %}

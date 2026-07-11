@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}대시보드 - 블로그 자동화{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>현황</h2>
+  <div class="stat">
+    <div class="num">{{ pending_count }}</div>
+    <div class="label">대기 중인 주제</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{ posted_count }}</div>
+    <div class="label">발행 완료</div>
+  </div>
+  <div class="stat">
+    <div class="num">
+      {% if auto_topic == "1" %}
+        <span class="status-dot status-on"></span>ON
+      {% else %}
+        <span class="status-dot status-off"></span>OFF
+      {% endif %}
+    </div>
+    <div class="label">AI 자동 주제 생성</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>다음 발행 예정</h2>
+  {% if next_topic %}
+    <p style="font-size: 16px; margin-bottom: 8px;">{{ next_topic.topic }}</p>
+    <div>
+      {% for tag in next_topic.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
+  {% else %}
+    <p style="color: #999;">대기 중인 주제가 없습니다.
+      {% if auto_topic == "1" %}
+        실행 시 AI가 새 주제를 자동 생성합니다.
+      {% else %}
+        <a href="{{ url_for('topics_page') }}" class="link">주제를 추가</a>하거나 AI 자동 생성을 활성화하세요.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <form method="POST" action="{{ url_for('run_daily') }}" style="margin-top: 16px;">
+    <div class="checkbox-row" style="margin-bottom: 12px;">
+      <input type="checkbox" id="draft" name="draft">
+      <label for="draft">초안으로만 저장 (실제 발행 안 함)</label>
+    </div>
+    <button type="submit" class="btn">지금 실행</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>최근 발행 5건</h2>
+  {% if recent %}
+    <table>
+      <thead><tr><th>시각</th><th>제목</th><th>출처</th><th></th></tr></thead>
+      <tbody>
+        {% for e in recent %}
+        <tr>
+          <td>{{ e.time }}</td>
+          <td>{{ e.topic }}</td>
+          <td><span class="tag">{{ e.source }}</span></td>
+          <td>{% if e.url and e.url != "(초안)" %}<a href="{{ e.url }}" target="_blank" class="link">보기</a>{% else %}—{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p style="color: #999;">아직 발행 이력이 없습니다.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+# 한 줄에 하나씩. 형식: 주제 | 태그1,태그2 | 이미지URL | 구매URL
+파이썬 초보를 위한 코딩 팁 10가지 | 파이썬,프로그래밍,초보
+아침 루틴으로 생산성 올리는 5가지 방법 | 생산성,루틴,자기계발
+집에서 커피 맛있게 내리는 법 | 커피,홈카페,취미
+챗GPT 활용해서 업무 시간 절반으로 줄이기 | AI,챗GPT,업무
+초보자도 쉽게 따라하는 홈트레이닝 루틴 | 운동,홈트,건강
+돈 모으는 습관 만드는 실전 팁 | 재테크,저축,돈관리
+독서 습관 만드는 현실적인 방법 | 독서,습관,자기계발
+넷플릭스 숨은 명작 5선 | 넷플릭스,영화,추천
+간단한 아침 식단 아이디어 | 요리,아침식사,건강
+스마트폰 배터리 오래 쓰는 법 | 스마트폰,팁,IT
+효율적인 시간 관리: 하루 24시간을 최대로 활용하는 7가지 방법 | 시간 관리,생산성,자기계발
+아쿠아 추천 TOP 5, 후회 없는 선택 가이드 | 뷰티,스킨케어,쇼핑팁 | https://daitg.kr/daitg/data/item/dm9163614/thumb-dm9163614_b43522742223_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm9163614
+스킨케어 필수템! 리빙듀오 실사용 후기 | 뷰티,스킨케어,쇼핑팁 | https://daitg.kr/daitg/data/item/dm9125629/thumb-dm9125629_b62d04b4a789_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm9125629
+스킨케어 필수템! 강아지 실사용 후기 | 뷰티,스킨케어,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65377419/thumb-dm65377419_69ba2cab19e2_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65377419
+해먹로프 저렴하게 사는 꿀팁 총정리 | 뷰티,미용소품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65177189/thumb-dm65177189_f85e4e6ca5ca_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65177189
+양말 종류별 비교, 뭐가 제일 좋을까? | 뷰티,미용소품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64177956/thumb-dm64177956_c16cf2bbf1bc_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64177956
+이거 하나면 끝! 스킨브러쉬 완벽 정리 | 뷰티,미용소품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm58232105/thumb-dm58232105_15a64ba865f9_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm58232105
+진짜 써본 마스크 솔직 후기와 고르는 법 | 뷰티,마스크팩,쇼핑팁 | https://daitg.kr/daitg/data/item/dm9698840/thumb-dm9698840_ac1b4854c61d_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm9698840
+살까 말까 고민된다면? 마스크 장단점 총정리 | 뷰티,마스크팩,쇼핑팁 | https://daitg.kr/daitg/data/item/dm9694969/thumb-dm9694969_dec5ee2b8921_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm9694969
+진짜 써본 마스크팩 솔직 후기와 고르는 법 | 뷰티,마스크팩,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64104210/thumb-dm64104210_165fe7005e9d_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64104210
+주부들이 극찬한 런웨이브 BEST 5 | 식품,헬스용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm7570006/thumb-dm7570006_aea0d4253c12_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm7570006
+이거 하나면 끝! 테이프 완벽 정리 | 식품,헬스용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65776699/thumb-dm65776699_9999a6fe02b2_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65776699
+헬스용품 추천 TOP 5, 후회 없는 선택 가이드 | 식품,헬스용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm63837329/thumb-dm63837329_ab4d89259893_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm63837329
+선물세트 추천 TOP 5, 후회 없는 선택 가이드 | 식품,간편식,쇼핑팁 | https://daitg.kr/daitg/data/item/dm7725889/thumb-dm7725889_b1c41d8ed3f1_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm7725889
+99%가 모르는 선물세트 200% 활용법 | 식품,간편식,쇼핑팁 | https://daitg.kr/daitg/data/item/dm51143802/thumb-dm51143802_785f3e341fd4_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm51143802
+과자 추천 TOP 5, 후회 없는 선택 가이드 | 식품,과자·간식,쇼핑팁 | https://daitg.kr/daitg/data/item/dm62538298/thumb-dm62538298_b359ba698e83_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm62538298
+초절전형 사기 전에 꼭 봐야 할 5가지 | 식품,과자·간식,쇼핑팁 | https://daitg.kr/daitg/data/item/dm61375049/thumb-dm61375049_11cf466a6f2e_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm61375049
+살까 말까 고민된다면? 할로윈 장단점 총정리 | 식품,과자·간식,쇼핑팁 | https://daitg.kr/daitg/data/item/dm60588947/thumb-dm60588947_11828a54fdf0_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm60588947
+99%가 모르는 손가락 200% 활용법 | 식품,건강용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm61219611/thumb-dm61219611_03276027170a_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm61219611
+손가락 저렴하게 사는 꿀팁 총정리 | 식품,건강용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm59344285/thumb-dm59344285_a1b4c673e347_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm59344285
+주부들이 극찬한 다용도 BEST 5 | 생활/리빙,주방용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm9687317/thumb-dm9687317_dfd3a52f1fc5_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm9687317
+수세미 사기 전에 꼭 봐야 할 5가지 | 생활/리빙,주방용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm7949529/thumb-dm7949529_2796adb6a0be_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm7949529
+주방장갑 사기 전에 꼭 봐야 할 5가지 | 생활/리빙,주방용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm66017451/thumb-dm66017451_8c73e2ff9ba1_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm66017451
+반려동물 추천 TOP 5, 후회 없는 선택 가이드 | 생활/리빙,반려동물용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm62638713/thumb-dm62638713_72cd5593626e_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm62638713
+살까 말까 고민된다면? 포근한 장단점 총정리 | 생활/리빙,반려동물용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm62174056/thumb-dm62174056_b569c0b40e24_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm62174056
+이거 하나면 끝! 수달키링 완벽 정리 | 생활/리빙,반려동물용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm59807460/thumb-dm59807460_fea9d6f3a08f_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm59807460
+무타공 종류별 비교, 뭐가 제일 좋을까? | 생활/리빙,욕실용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm63856179/thumb-dm63856179_7da9cf29d327_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm63856179
+99%가 모르는 세탁기호스 200% 활용법 | 생활/리빙,욕실용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm58738623/thumb-dm58738623_2420e058e56b_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm58738623
+이거 하나면 끝! 세탁기호스 완벽 정리 | 생활/리빙,욕실용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm58738622/thumb-dm58738622_dd9dfbcc83d1_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm58738622
+다용도집게 종류별 비교, 뭐가 제일 좋을까? | 생활/리빙,청소용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64906358/thumb-dm64906358_6eb52502b995_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64906358
+이불빨래집게 사기 전에 꼭 봐야 할 5가지 | 생활/리빙,세탁용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm8606166/thumb-dm8606166_e04156b172b6_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm8606166
+산도깨비 저렴하게 사는 꿀팁 총정리 | 생활/리빙,세탁용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm7014467/thumb-dm7014467_9046a30c8edd_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm7014467
+주부들이 극찬한 산도깨비 BEST 5 | 생활/리빙,세탁용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm63755309/thumb-dm63755309_a88d1869278c_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm63755309
+수납정리 필수템! 치약걸이 실사용 후기 | 생활/리빙,수납정리,쇼핑팁 | https://daitg.kr/daitg/data/item/dm66058573/thumb-dm66058573_e9bfcc0bee79_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm66058573
+이거 하나면 끝! 고급 완벽 정리 | 생활/리빙,수납정리,쇼핑팁 | https://daitg.kr/daitg/data/item/dm63030652/thumb-dm63030652_9a68ea104d35_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm63030652
+접착식 사기 전에 꼭 봐야 할 5가지 | 생활/리빙,수납정리,쇼핑팁 | https://daitg.kr/daitg/data/item/dm60561961/thumb-dm60561961_85d9f221f689_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm60561961
+혜명잡화마트 추천 TOP 5, 후회 없는 선택 가이드 | 생활/리빙,생활잡화,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64716610/thumb-dm64716610_b8a10709889c_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64716610
+휴대용 사기 전에 꼭 봐야 할 5가지 | 의료용품,응급처치용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65510934/thumb-dm65510934_9dc3e5c86440_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65510934
+이거 하나면 끝! 파우치세트 완벽 정리 | 의료용품,응급처치용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65498122/thumb-dm65498122_0a14832b2b38_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65498122
+비상용 종류별 비교, 뭐가 제일 좋을까? | 의료용품,응급처치용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65295617/thumb-dm65295617_853031f79e7f_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65295617
+옻칠 사기 전에 꼭 봐야 할 5가지 | 의료용품,위생용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm65577102/thumb-dm65577102_25589d3c4d89_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm65577102
+마스크 종류별 비교, 뭐가 제일 좋을까? | 의료용품,위생용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64536429/thumb-dm64536429_2c518e3b5dd7_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64536429
+진짜 써본 위생용품 솔직 후기와 고르는 법 | 의료용품,위생용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64310749/thumb-dm64310749_124015df1ada_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64310749
+다용도 사기 전에 꼭 봐야 할 5가지 | 산업/안전용품,공구,쇼핑팁 | https://daitg.kr/daitg/data/item/dm44357651/thumb-dm44357651_2499853cafb9_250x250.png | https://daitg.kr/daitg/shop/item.php?it_id=dm44357651
+생활낙원 종류별 비교, 뭐가 제일 좋을까? | 산업/안전용품,안전용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm66108645/thumb-dm66108645_86817d0aff13_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm66108645
+형광 저렴하게 사는 꿀팁 총정리 | 산업/안전용품,안전용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64412015/thumb-dm64412015_3c825f2a8a0c_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64412015
+주부들이 극찬한 소화기 BEST 5 | 산업/안전용품,안전용품,쇼핑팁 | https://daitg.kr/daitg/data/item/dm64412007/thumb-dm64412007_e7fd3c25004e_250x250.jpg | https://daitg.kr/daitg/shop/item.php?it_id=dm64412007

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}발행 이력{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>발행 이력 ({{ entries|length }}건)</h2>
+  {% if entries %}
+    <table>
+      <thead>
+        <tr><th style="width:150px;">시각</th><th>제목</th><th style="width:100px;">출처</th><th style="width:80px;">링크</th></tr>
+      </thead>
+      <tbody>
+        {% for e in entries %}
+        <tr>
+          <td>{{ e.time }}</td>
+          <td>{{ e.topic }}</td>
+          <td><span class="tag">{{ e.source }}</span></td>
+          <td>{% if e.url and e.url != "(초안)" %}<a href="{{ e.url }}" target="_blank" class="link">보기</a>{% else %}<span style="color:#999;">초안</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p style="color: #999;">아직 발행 이력이 없습니다.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

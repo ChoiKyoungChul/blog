@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}즉시 발행{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>즉시 발행</h2>
+  <p style="color: #57606a; margin-bottom: 20px;">
+    주제를 직접 입력해 LLM으로 글을 생성하고 바로 Blogger에 올립니다.
+  </p>
+  <form method="POST">
+    <div class="form-row">
+      <label for="topic">주제 *</label>
+      <input type="text" id="topic" name="topic" placeholder="예: 여름철 커피 원두 보관법" required>
+    </div>
+    <div class="form-row">
+      <label for="tags">태그 (쉼표 구분)</label>
+      <input type="text" id="tags" name="tags" placeholder="예: 커피,홈카페,팁">
+    </div>
+    <div class="form-row">
+      <label for="image_url">이미지 URL (선택, 비우면 Pixabay에서 자동 검색)</label>
+      <input type="text" id="image_url" name="image_url" placeholder="https://...">
+    </div>
+    <div class="form-row">
+      <label for="product_url">구매 페이지 URL (선택, 다있지창고 상품 링크)</label>
+      <input type="text" id="product_url" name="product_url" placeholder="https://daitg.kr/daitg/shop/item.php?it_id=...">
+    </div>
+    <div class="form-row">
+      <label for="tone">톤</label>
+      <select id="tone" name="tone">
+        <option value="친근하고 정보성 있는">친근하고 정보성 있는 (기본)</option>
+        <option value="전문적이고 실용적인">전문적이고 실용적인</option>
+        <option value="캐주얼하고 유머러스한">캐주얼하고 유머러스한</option>
+        <option value="담백하고 간결한">담백하고 간결한</option>
+        <option value="따뜻하고 공감적인">따뜻하고 공감적인</option>
+      </select>
+    </div>
+    <div class="form-row checkbox-row">
+      <input type="checkbox" id="draft" name="draft" checked>
+      <label for="draft">초안으로 저장 (체크 해제 시 즉시 발행)</label>
+    </div>
+    <button type="submit" class="btn">생성 및 저장</button>
+  </form>
+  <p style="margin-top: 12px; font-size: 13px; color: #999;">
+    ⏱ 글 생성에 10~30초 걸립니다. 페이지를 새로고침하지 마세요.
+  </p>
+</div>
+
+{% endblock %}
