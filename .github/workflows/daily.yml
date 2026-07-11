@@ -4,7 +4,7 @@ on:
   schedule:
     # 매일 UTC 00:00 = 한국시간 오전 9:00
     - cron: '0 0 * * *'
-  workflow_dispatch:  # 수동 실행 가능
+  workflow_dispatch:
     inputs:
       draft:
         description: '초안으로 저장 (true) / 즉시 발행 (false)'
@@ -16,7 +16,7 @@ on:
           - 'false'
 
 permissions:
-  contents: write  # posted_log.txt / topics.txt 커밋용
+  contents: write
 
 jobs:
   publish:
@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -40,6 +40,28 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Validate required secrets
+        env:
+          CREDENTIALS_JSON_B64: ${{ secrets.CREDENTIALS_JSON_B64 }}
+          TOKEN_JSON_B64: ${{ secrets.TOKEN_JSON_B64 }}
+          BLOG_ID: ${{ secrets.BLOG_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          missing=""
+          [ -z "$CREDENTIALS_JSON_B64" ] && missing="$missing CREDENTIALS_JSON_B64"
+          [ -z "$TOKEN_JSON_B64" ] && missing="$missing TOKEN_JSON_B64"
+          [ -z "$BLOG_ID" ] && missing="$missing BLOG_ID"
+          if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$OPENAI_API_KEY" ] && [ -z "$GEMINI_API_KEY" ]; then
+            missing="$missing (LLM 키 중 하나 필요)"
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error::누락된 Secrets:$missing"
+            exit 1
+          fi
+          echo "✓ 필수 Secrets 확인 완료"
+
       - name: Restore Google OAuth credentials
         env:
           CREDENTIALS_JSON_B64: ${{ secrets.CREDENTIALS_JSON_B64 }}
@@ -47,6 +69,10 @@ jobs:
         run: |
           echo "$CREDENTIALS_JSON_B64" | base64 -d > credentials.json
           echo "$TOKEN_JSON_B64" | base64 -d > token.json
+          echo "credentials.json 크기: $(wc -c < credentials.json) bytes"
+          echo "token.json 크기: $(wc -c < token.json) bytes"
+          python -c "import json; json.load(open('credentials.json')); print('✓ credentials.json 파싱 OK')"
+          python -c "import json; json.load(open('token.json')); print('✓ token.json 파싱 OK')"
 
       - name: Write .env
         env:
@@ -60,29 +86,34 @@ jobs:
           AUTO_TOPIC: ${{ vars.AUTO_TOPIC || '0' }}
           EMBED_VIDEO: ${{ vars.EMBED_VIDEO || '1' }}
         run: |
-          cat > .env <<EOF
-          ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
-          OPENAI_API_KEY=$OPENAI_API_KEY
-          GEMINI_API_KEY=$GEMINI_API_KEY
-          PIXABAY_API_KEY=$PIXABAY_API_KEY
-          BLOG_ID=$BLOG_ID
-          LLM_PROVIDER=$LLM_PROVIDER
-          BLOG_THEME=$BLOG_THEME
-          AUTO_TOPIC=$AUTO_TOPIC
-          EMBED_VIDEO=$EMBED_VIDEO
-          EOF
+          {
+            echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY"
+            echo "OPENAI_API_KEY=$OPENAI_API_KEY"
+            echo "GEMINI_API_KEY=$GEMINI_API_KEY"
+            echo "PIXABAY_API_KEY=$PIXABAY_API_KEY"
+            echo "BLOG_ID=$BLOG_ID"
+            echo "LLM_PROVIDER=$LLM_PROVIDER"
+            echo "BLOG_THEME=$BLOG_THEME"
+            echo "AUTO_TOPIC=$AUTO_TOPIC"
+            echo "EMBED_VIDEO=$EMBED_VIDEO"
+          } > .env
+          echo "✓ .env 작성 완료 (BLOG_ID=$BLOG_ID, LLM=$LLM_PROVIDER)"
 
       - name: Publish post
         env:
           PYTHONIOENCODING: utf-8
+          PYTHONUTF8: '1'
         run: |
           if [ "${{ github.event.inputs.draft }}" = "true" ]; then
+            echo "🟡 초안 모드로 실행"
             python daily_post.py
           else
+            echo "🟢 즉시 발행 모드로 실행"
             python daily_post.py --publish
           fi
 
       - name: Commit updated logs
+        if: success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
