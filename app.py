@@ -9,6 +9,7 @@ from dotenv import dotenv_values, load_dotenv
 from flask import Flask, flash, redirect, render_template, request, url_for
 
 from generate_topic import generate_topic
+from git_sync import pull_latest, push_changes
 from publish_helper import generate_and_publish
 from scrape_daitg import CATEGORIES, scrape_to_topics
 
@@ -146,6 +147,7 @@ def topics_page():
             if 0 <= idx < len(items):
                 target = items[idx]
                 as_draft = action == "draft_now"
+                pull_latest()
                 try:
                     result = generate_and_publish(
                         topic=target["topic"],
@@ -158,6 +160,7 @@ def topics_page():
                     url = result.get("url", "(초안)")
                     meta = result.get("_post", {})
                     append_log(target["topic"], post_id, url, "web-topic")
+                    push_changes(["posted_log.txt", "topics.txt"], f"chore: 웹 발행 - {target['topic'][:40]}")
                     status = "초안 저장" if as_draft else "발행 완료"
                     flash(f"{status}: {meta.get('title', target['topic'])}", "success")
                 except Exception as e:
@@ -192,6 +195,7 @@ def publish_page():
 
         image_url = request.form.get("image_url", "").strip()
         product_url = request.form.get("product_url", "").strip()
+        pull_latest()
         try:
             result = generate_and_publish(
                 topic=topic, tags=tags, image_url=image_url,
@@ -201,6 +205,7 @@ def publish_page():
             url = result.get("url", "(초안)")
             meta = result.get("_post", {})
             append_log(topic, post_id, url, "web-manual")
+            push_changes(["posted_log.txt", "topics.txt"], f"chore: 즉시 발행 - {topic[:40]}")
             status = "초안 저장" if as_draft else "발행 완료"
             flash(f"{status}: {meta.get('title', topic)} ({url})", "success")
         except Exception as e:

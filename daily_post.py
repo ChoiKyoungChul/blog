@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from generate_topic import generate_topic
+from git_sync import pull_latest, push_changes
 from publish_helper import generate_and_publish
 
 load_dotenv()
@@ -78,6 +79,11 @@ def pick_next_topic() -> tuple[dict, str]:
 
 def main():
     publish_now = "--publish" in sys.argv
+    skip_sync = "--no-sync" in sys.argv or os.environ.get("SKIP_GIT_SYNC", "0") == "1"
+
+    if not skip_sync:
+        print("[1/3] 원격 이력 동기화")
+        pull_latest()
 
     item, source = pick_next_topic()
     print(f"[선택된 주제] {item['topic']} (출처: {source})")
@@ -101,6 +107,10 @@ def main():
     print(f"[메타 설명] {meta.get('meta_description', '')}")
     print(f"URL: {url}")
     print(f"ID: {post_id}")
+
+    if not skip_sync:
+        print("[3/3] 원격에 이력 푸시")
+        push_changes(["posted_log.txt", "topics.txt"], f"chore: 자동 발행 - {item['topic'][:40]}")
 
 
 if __name__ == "__main__":
