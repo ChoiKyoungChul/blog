@@ -3,6 +3,7 @@ import html
 import os
 
 from blogger_auth import get_blogger_service
+from dalle_image import generate_dalle_images
 from generate_post import Post, generate_post
 from image_search import search_pixabay, search_pixabay_video
 
@@ -170,6 +171,15 @@ def insert_image(html_str: str, image_url: str, alt: str, caption: str = "") -> 
     return head + "\n" + img + "\n" + tail
 
 
+def insert_image_at_nth_h2(html_str: str, n: int, image_url: str, alt: str) -> str:
+    """n번째 <h2> 앞에 이미지 삽입 (1부터 시작)."""
+    img = _make_img_tag(image_url, alt)
+    parts = html_str.split("<h2>")
+    if len(parts) <= n:
+        return html_str + "\n" + img
+    return "<h2>".join(parts[:n]) + "\n" + img + "\n<h2>" + "<h2>".join(parts[n:])
+
+
 def _make_video_tag(video: dict, keyword: str) -> str:
     url = html.escape(video["url"])
     thumb = html.escape(video.get("thumbnail", ""))
@@ -245,13 +255,26 @@ def generate_and_publish(
     """토픽 → LLM 생성 → 이미지 삽입 → Blogger 발행 (초안 또는 게시)."""
     post = generate_post(topic, tone=tone, labels=tags)
 
-    img = resolve_image(topic, image_url, tags=tags)
-    if img:
-        url, alt = img
+    use_dalle = os.environ.get("USE_DALLE_IMAGES", "1") != "0" and post.image_prompts
+    dalle_images = generate_dalle_images(post.image_prompts) if use_dalle else []
+
+    if len(dalle_images) >= 1:
+        url, alt = dalle_images[0]
         post.html = insert_image(post.html, url, alt)
-        print(f"[이미지] {url}")
+        print("[DALL-E 이미지 1] 도입부 삽입")
     else:
-        print("[이미지] 이미지 소스 없음")
+        img = resolve_image(topic, image_url, tags=tags)
+        if img:
+            url, alt = img
+            post.html = insert_image(post.html, url, alt)
+            print(f"[이미지] Pixabay: {url[:80]}")
+        else:
+            print("[이미지] 이미지 소스 없음")
+
+    if len(dalle_images) >= 2:
+        url2, alt2 = dalle_images[1]
+        post.html = insert_image_at_nth_h2(post.html, 3, url2, alt2)
+        print("[DALL-E 이미지 2] 본문 중간 삽입")
 
     if os.environ.get("EMBED_VIDEO", "1") != "0":
         video = None

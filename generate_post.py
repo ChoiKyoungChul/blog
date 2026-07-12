@@ -16,6 +16,7 @@ class Post:
     labels: list[str]
     meta_description: str = ""
     keywords: list[str] = field(default_factory=list)
+    image_prompts: list[str] = field(default_factory=list)
 
 
 SYSTEM_PROMPT = (
@@ -26,8 +27,16 @@ SYSTEM_PROMPT = (
     '  "title": "클릭 유도 + 검색 키워드 조합 제목 (30~55자)",\n'
     '  "meta_description": "검색 결과에 노출될 요약 (120~155자, 핵심 키워드+호기심 유발)",\n'
     '  "keywords": ["주요 키워드", "관련 키워드", "롱테일 키워드"],\n'
+    '  "image_prompts": ["첫 번째 대표 이미지 생성용 영어 프롬프트 (본문 도입부 시각화)", "두 번째 보조 이미지 프롬프트 (본문 중반 핵심 개념 시각화)"],\n'
     '  "html": "본문 HTML"\n'
     "}\n\n"
+    "image_prompts 규칙:\n"
+    "- 반드시 영어로 작성 (DALL-E는 영어에 최적화)\n"
+    "- 각 프롬프트는 30~80단어\n"
+    "- 스타일 지시 포함 (예: 'photorealistic', 'modern flat illustration', 'clean minimalist style', 'warm lighting')\n"
+    "- 텍스트/로고/워터마크 금지 문구 포함 ('no text, no logos')\n"
+    "- 한국 문화에 어색한 표현 지양 (자연스러운 아시아/글로벌 톤)\n"
+    "- 본문의 핵심 시각적 요소를 반영\n\n"
     "제목 규칙 (CTR 극대화):\n"
     "- 검색량 있는 핵심 키워드 반드시 포함 (방법, 후기, 추천, 비교, TOP, 순위, 총정리 등)\n"
     "- 클릭 훅 활용: 숫자(TOP 5, 5분 만에), 호기심(99%가 모르는, 진짜 아는 사람만), "
@@ -176,6 +185,7 @@ def generate_post(
     title = (data.get("title") or topic).strip()
     meta = (data.get("meta_description") or "").strip()
     keywords = [k.strip() for k in data.get("keywords", []) if k.strip()]
+    image_prompts = [p.strip() for p in data.get("image_prompts", []) if p.strip()][:2]
     html = (data.get("html") or "").strip()
     html = _wrap_seo(html, keywords, meta)
 
@@ -187,6 +197,7 @@ def generate_post(
         labels=final_labels,
         meta_description=meta,
         keywords=keywords,
+        image_prompts=image_prompts,
     )
 
 
