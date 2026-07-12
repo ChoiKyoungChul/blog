@@ -6,6 +6,7 @@ from blogger_auth import get_blogger_service
 from dalle_image import generate_dalle_images
 from generate_post import Post, generate_post
 from image_search import search_pixabay, search_pixabay_video
+from scrape_daitg import Product, fetch_product_detail, fetch_related_products
 
 
 def _first_h2_or_top(html_str: str) -> tuple[str, str]:
@@ -217,6 +218,71 @@ def build_post_body(post: Post) -> dict:
     }
 
 
+def _make_product_card(product: Product) -> str:
+    """상품 카드: 사진 + 이름/브랜드 + 가격 + 바로가기 버튼."""
+    name = html.escape(product.name)
+    price = html.escape(product.price or "가격 문의")
+    brand = html.escape(product.brand or "")
+    url = html.escape(product.detail_url)
+    img = html.escape(product.image_url)
+
+    brand_line = f'<div style="font-size:13px;color:#888;margin-bottom:6px;">{brand}</div>' if brand else ""
+
+    return (
+        '<div style="margin:28px 0;padding:20px;border:2px solid #ff6b35;border-radius:14px;'
+        'background:#fff;display:flex;gap:20px;align-items:center;flex-wrap:wrap;">'
+        f'<div style="flex:0 0 180px;max-width:180px;">'
+        f'<img src="{img}" alt="{name}" style="width:100%;height:auto;border-radius:8px;">'
+        '</div>'
+        '<div style="flex:1;min-width:220px;">'
+        '<div style="font-size:12px;color:#ff6b35;font-weight:700;margin-bottom:6px;">📦 소개 상품</div>'
+        f'<div style="font-size:17px;font-weight:700;color:#222;margin-bottom:8px;line-height:1.4;">{name}</div>'
+        f'{brand_line}'
+        f'<div style="font-size:22px;font-weight:800;color:#ff6b35;margin-bottom:14px;">{price}</div>'
+        f'<a href="{url}" target="_blank" rel="noopener noreferrer sponsored" '
+        'style="display:inline-block;padding:10px 22px;background:#ff6b35;color:#fff;'
+        'text-decoration:none;border-radius:8px;font-weight:700;font-size:14px;">'
+        '👉 다있지창고에서 바로가기</a>'
+        '</div>'
+        '</div>'
+    )
+
+
+def _make_related_list(products: list[Product]) -> str:
+    """관련 상품 3개 리스트."""
+    if not products:
+        return ""
+
+    items = []
+    for p in products:
+        name = html.escape(p.name)
+        price = html.escape(p.price or "가격 문의")
+        url = html.escape(p.detail_url)
+        img = html.escape(p.image_url)
+        items.append(
+            '<div style="display:flex;gap:14px;padding:14px;border-radius:10px;'
+            'background:#f8f9fb;margin-bottom:10px;align-items:center;">'
+            f'<a href="{url}" target="_blank" rel="noopener noreferrer sponsored" style="flex:0 0 80px;">'
+            f'<img src="{img}" alt="{name}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;">'
+            '</a>'
+            '<div style="flex:1;min-width:0;">'
+            f'<a href="{url}" target="_blank" rel="noopener noreferrer sponsored" '
+            'style="text-decoration:none;color:#222;font-weight:600;font-size:14px;line-height:1.4;'
+            'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">'
+            f'{name}</a>'
+            f'<div style="font-size:15px;color:#ff6b35;font-weight:700;margin-top:6px;">{price}</div>'
+            '</div>'
+            '</div>'
+        )
+
+    return (
+        '<div style="margin:32px 0;padding:22px;background:#fff7ed;border-radius:14px;">'
+        '<h3 style="margin:0 0 16px 0;font-size:18px;color:#8b4513;">🔗 함께 보면 좋은 상품</h3>'
+        + "\n".join(items) +
+        '</div>'
+    )
+
+
 def _make_cta_block(product_url: str) -> str:
     """구매 페이지로 이동하는 CTA 블록. 새 창으로 열림."""
     safe_url = html.escape(product_url)
@@ -294,8 +360,25 @@ def generate_and_publish(
                 print(f"[비디오] 매칭 실패 (시도: {video_keywords})")
 
     if product_url:
-        post.html = insert_cta(post.html, product_url)
-        print(f"[구매 CTA] {product_url}")
+        product = fetch_product_detail(product_url)
+        if product:
+            print(f"[상품 정보] {product.name} / {product.price}")
+            card = _make_product_card(product)
+            parts = post.html.split("<h2>")
+            if len(parts) >= 2:
+                post.html = "<h2>".join(parts[:1]) + "\n" + card + "\n<h2>" + "<h2>".join(parts[1:])
+            else:
+                post.html = card + "\n" + post.html
+
+            related = fetch_related_products(product.ca_id, exclude_url=product.detail_url, count=3)
+            if related:
+                print(f"[관련 상품] {len(related)}개")
+                post.html += "\n" + _make_related_list(related)
+
+            post.html += "\n" + _make_cta_block(product_url)
+        else:
+            print("[상품 상세 실패] CTA로 폴백")
+            post.html = insert_cta(post.html, product_url)
 
     service = get_blogger_service()
     result = service.posts().insert(

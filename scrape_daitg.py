@@ -61,6 +61,8 @@ class Product:
     ca_id: str
     image_url: str = ""
     detail_url: str = ""
+    price: str = ""
+    brand: str = ""
 
 
 def _clean_name(raw: str) -> str:
@@ -141,14 +143,96 @@ def fetch_products(ca_id: str, max_items: int = 20) -> list[Product]:
             continue
         seen.add(name)
 
+        price = ""
+        price_tag = card.select_one(".sct_cost")
+        if price_tag:
+            price = price_tag.get_text(strip=True)
+
         products.append(Product(
             name=name, category=category, subcategory=subcategory,
-            ca_id=ca_id, image_url=src, detail_url=detail,
+            ca_id=ca_id, image_url=src, detail_url=detail, price=price,
         ))
         if len(products) >= max_items:
             break
 
     return products
+
+
+def fetch_product_detail(url: str) -> Product | None:
+    """상품 상세 페이지에서 이름/가격/이미지/브랜드/카테고리 추출."""
+    try:
+        resp = requests.get(url, headers={"User-Agent": UA}, timeout=15)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"[상세 페이지 실패] {e}")
+        return None
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    import json
+    name = ""
+    price = ""
+    image_url = ""
+    brand = ""
+    ca_id = ""
+    category = ""
+    subcategory = ""
+
+    for script in soup.select('script[type="application/ld+json"]'):
+        try:
+            data = json.loads(script.string or "{}")
+        except Exception:
+            continue
+        if data.get("@type") == "Product":
+            name = data.get("name", "").strip()
+            image_url = data.get("image", "").strip()
+            brand = data.get("brand", {}).get("name", "") if isinstance(data.get("brand"), dict) else ""
+            offer = data.get("offers", {})
+            if isinstance(offer, dict):
+                p = offer.get("price", "")
+                if p:
+                    try:
+                        price = f"{int(float(p)):,}원"
+                    except Exception:
+                        price = f"{p}원"
+        elif data.get("@type") == "BreadcrumbList":
+            items = data.get("itemListElement", [])
+            if len(items) >= 4:
+                subcategory = items[3].get("name", "")
+                sub_url = items[3].get("item", "")
+                import re
+                m = re.search(r"ca_id=(\d+)", sub_url)
+                if m:
+                    ca_id = m.group(1)
+            if len(items) >= 3:
+                category = items[2].get("name", "")
+
+    if not name:
+        h = soup.select_one("#sit_title")
+        if h:
+            name = h.get_text(strip=True).replace("요약정보 및 구매", "").strip()
+    if not price:
+        p_tag = soup.select_one(".tr_price strong")
+        if p_tag:
+            price = p_tag.get_text(strip=True)
+
+    if not name:
+        return None
+
+    return Product(
+        name=name, category=category or "생활/리빙", subcategory=subcategory,
+        ca_id=ca_id, image_url=image_url, detail_url=url,
+        price=price, brand=brand,
+    )
+
+
+def fetch_related_products(ca_id: str, exclude_url: str = "", count: int = 3) -> list[Product]:
+    """같은 카테고리의 다른 상품 N개 (현재 상품 제외)."""
+    if not ca_id:
+        return []
+    products = fetch_products(ca_id, max_items=count * 2 + 2)
+    filtered = [p for p in products if p.detail_url != exclude_url]
+    return filtered[:count]
 
 
 def scrape_to_topics(ca_ids: list[str], per_category: int = 5) -> list[dict]:
